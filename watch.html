@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
@@ -28,6 +28,8 @@
 
     <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
     <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-core" id="cursor-core" aria-hidden="true"></div>
+    <div class="cursor-label" id="cursor-label" aria-hidden="true"></div>
 
     <div class="page-shell">
       <header class="site-header">
@@ -36,15 +38,29 @@
           <span class="brand-text">XShow</span>
         </a>
 
+        <nav class="header-nav" aria-label="Primary">
+          <a href="/" data-cursor-label="Home">Featured</a>
+          <a href="/#showcase" data-cursor-label="Showcase">Now Showing</a>
+          <a href="/#trailers" data-cursor-label="Browse">Library</a>
+          <a href="/#creator" data-cursor-label="Upload">Creator</a>
+        </nav>
+
         <div class="header-actions">
-          <a class="header-cta" href="/#creator">Upload Trailer</a>
+          <a class="header-cta" href="/#creator" data-cursor-label="Upload">Upload Trailer</a>
         </div>
       </header>
 
       <main>
+        <section class="editorial-bar reveal is-visible" aria-label="Trailer page context">
+          <p class="editorial-stamp">Watch Page</p>
+          <p class="editorial-copy">
+            Dedicated trailer presentation with premium playback, details, and related picks.
+          </p>
+        </section>
+
         <section class="watch-hero-shell">
           <div class="reveal is-visible">
-            <a class="back-link" href="/">Back to all trailers</a>
+            <a class="back-link" href="/" data-cursor-label="Back">Back to all trailers</a>
 
             <div class="watch-layout">
               <section class="watch-stage-shell reveal is-visible">
@@ -75,8 +91,8 @@
                 <div class="tag-row" id="watch-tags"></div>
 
                 <div class="watch-actions">
-                  <a class="button button-primary" href="/">Back Home</a>
-                  <a class="button button-secondary" href="/#creator">Upload Trailer</a>
+                  <a class="button button-primary" href="/" data-cursor-label="Back">Back Home</a>
+                  <a class="button button-secondary" href="/#creator" data-cursor-label="Upload">Upload Trailer</a>
                 </div>
               </aside>
             </div>

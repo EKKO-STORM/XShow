@@ -3,6 +3,8 @@ const watchElements = {
   ambientVideoWrap: document.getElementById("ambient-video-wrap"),
   cursorGlow: document.getElementById("cursor-glow"),
   cursorRing: document.getElementById("cursor-ring"),
+  cursorCore: document.getElementById("cursor-core"),
+  cursorLabel: document.getElementById("cursor-label"),
   watchStage: document.getElementById("watch-stage"),
   watchCategory: document.getElementById("watch-category"),
   watchTitle: document.getElementById("watch-title"),
@@ -53,7 +55,11 @@ function setupRevealObserver() {
 function setupCursorEffect() {
   if (
     window.matchMedia("(pointer: coarse)").matches ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !watchElements.cursorGlow ||
+    !watchElements.cursorRing ||
+    !watchElements.cursorCore ||
+    !watchElements.cursorLabel
   ) {
     return;
   }
@@ -62,14 +68,58 @@ function setupCursorEffect() {
 
   let currentX = window.innerWidth / 2;
   let currentY = window.innerHeight / 2;
+  let glowX = currentX;
+  let glowY = currentY;
+  let coreX = currentX;
+  let coreY = currentY;
   let targetX = currentX;
   let targetY = currentY;
+  let hoverScale = 1;
+  let pressScale = 1;
+
+  const hideCursor = () => {
+    hoverScale = 1;
+    pressScale = 1;
+    watchElements.cursorGlow.classList.remove("is-visible");
+    watchElements.cursorRing.classList.remove("is-visible", "is-active", "is-pressed");
+    watchElements.cursorCore.classList.remove("is-visible");
+    watchElements.cursorLabel.classList.remove("is-visible", "is-active");
+  };
+
+  const setHoverTarget = (target) => {
+    const interactive = target?.closest("[data-cursor-label], .catalog-card, a, button");
+    const label = resolveCursorLabel(interactive);
+    const isActive = Boolean(interactive);
+
+    hoverScale = isActive ? 1.75 : 1;
+    watchElements.cursorRing.classList.toggle("is-active", isActive);
+    watchElements.cursorLabel.classList.toggle("is-visible", Boolean(label));
+    watchElements.cursorLabel.classList.toggle("is-active", isActive);
+    watchElements.cursorLabel.textContent = label;
+  };
 
   const tick = () => {
-    currentX += (targetX - currentX) * 0.18;
-    currentY += (targetY - currentY) * 0.18;
-    watchElements.cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-    watchElements.cursorRing.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(var(--cursor-scale))`;
+    currentX += (targetX - currentX) * 0.2;
+    currentY += (targetY - currentY) * 0.2;
+    glowX += (targetX - glowX) * 0.1;
+    glowY += (targetY - glowY) * 0.1;
+    coreX += (targetX - coreX) * 0.34;
+    coreY += (targetY - coreY) * 0.34;
+
+    const dx = targetX - currentX;
+    const dy = targetY - currentY;
+    const angle = Math.atan2(dy, dx);
+    const speed = Math.min(Math.hypot(dx, dy), 26);
+    const stretch = 1 + speed * 0.015;
+    const squeeze = Math.max(0.84, 1 - speed * 0.008);
+    const scale = hoverScale * pressScale;
+
+    watchElements.cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+    watchElements.cursorRing.style.transform =
+      `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) rotate(${angle}rad) ` +
+      `scale(${stretch * scale}, ${squeeze * scale})`;
+    watchElements.cursorCore.style.transform = `translate3d(${coreX}px, ${coreY}px, 0) translate(-50%, -50%)`;
+    watchElements.cursorLabel.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(20px, -28px)`;
     window.requestAnimationFrame(tick);
   };
 
@@ -78,29 +128,55 @@ function setupCursorEffect() {
     targetY = event.clientY;
     watchElements.cursorGlow.classList.add("is-visible");
     watchElements.cursorRing.classList.add("is-visible");
+    watchElements.cursorCore.classList.add("is-visible");
+    setHoverTarget(event.target);
   });
 
   document.addEventListener("pointerdown", () => {
+    pressScale = 0.82;
     watchElements.cursorRing.classList.add("is-pressed");
   });
 
   document.addEventListener("pointerup", () => {
+    pressScale = 1;
     watchElements.cursorRing.classList.remove("is-pressed");
   });
 
-  document.addEventListener("mouseover", (event) => {
-    if (event.target.closest("a, button")) {
-      watchElements.cursorRing.classList.add("is-active");
+  document.addEventListener("mouseout", (event) => {
+    if (event.relatedTarget) {
+      return;
     }
+
+    hideCursor();
   });
 
-  document.addEventListener("mouseout", (event) => {
-    if (event.target.closest("a, button")) {
-      watchElements.cursorRing.classList.remove("is-active");
-    }
-  });
+  window.addEventListener("blur", hideCursor);
 
   window.requestAnimationFrame(tick);
+}
+
+function resolveCursorLabel(target) {
+  if (!target) {
+    return "";
+  }
+
+  if (target.dataset.cursorLabel) {
+    return target.dataset.cursorLabel;
+  }
+
+  if (target.matches(".catalog-card")) {
+    return "Preview";
+  }
+
+  if (target.matches("button")) {
+    return target.textContent.trim().split(/\s+/).slice(0, 2).join(" ") || "Select";
+  }
+
+  if (target.matches("a")) {
+    return target.getAttribute("href")?.startsWith("/watch/") ? "Open" : "Go";
+  }
+
+  return "View";
 }
 
 async function loadTrailerPage() {
@@ -188,26 +264,23 @@ function renderRelated(related) {
   watchElements.relatedGrid.innerHTML = related
     .map(
       (video) => `
-        <article class="catalog-card reveal is-visible">
-          <div class="card-visual tone-${escapeHtml(video.posterTone)}">
-            <div class="card-chip-row">
+        <article class="rail-card reveal is-visible" data-cursor-label="Preview">
+          <div class="rail-card-visual tone-${escapeHtml(video.posterTone)}">
+            <span class="rail-index">${escapeHtml(video.durationLabel)}</span>
+            <div class="rail-card-overlay">
               <span class="card-chip">${escapeHtml(video.category)}</span>
-              <span class="card-chip">${escapeHtml(video.durationLabel)}</span>
+              <span class="card-chip">${escapeHtml(video.style)}</span>
             </div>
           </div>
 
-          <div class="card-content">
-            <p class="caption-tag">${escapeHtml(video.style)}</p>
+          <div class="rail-card-content">
+            <p class="caption-tag">${escapeHtml(video.category)}</p>
             <h3>${escapeHtml(video.title)}</h3>
             <p>${escapeHtml(video.description)}</p>
 
-            <div class="tag-row">
-              ${video.tags.slice(0, 3).map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("")}
-            </div>
-
-            <div class="card-actions">
+            <div class="rail-card-actions">
               <span class="micro-pill">${escapeHtml(video.status)}</span>
-              <a class="card-link" href="${video.watchUrl}">Open Watch Page</a>
+              <a class="card-link" href="${video.watchUrl}" data-cursor-label="Open">Open Watch Page</a>
             </div>
           </div>
         </article>

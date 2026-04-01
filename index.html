@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
@@ -28,6 +28,8 @@
 
     <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
     <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-core" id="cursor-core" aria-hidden="true"></div>
+    <div class="cursor-label" id="cursor-label" aria-hidden="true"></div>
 
     <div class="page-shell">
       <header class="site-header">
@@ -36,17 +38,31 @@
           <span class="brand-text">XShow</span>
         </a>
 
+        <nav class="header-nav" aria-label="Primary">
+          <a href="#top" data-cursor-label="Top">Featured</a>
+          <a href="#showcase" data-cursor-label="Showcase">Now Showing</a>
+          <a href="#trailers" data-cursor-label="Browse">Library</a>
+          <a href="#creator" data-cursor-label="Upload">Creator</a>
+        </nav>
+
         <div class="header-actions">
           <span class="status-pill" id="creator-status-pill">Viewer Mode</span>
-          <a class="header-cta" href="#creator">Upload Trailer</a>
+          <a class="header-cta" href="#creator" data-cursor-label="Upload">Upload Trailer</a>
         </div>
       </header>
 
       <main id="top">
+        <section class="editorial-bar reveal is-visible" aria-label="XShow editorial line">
+          <p class="editorial-stamp">Issue 001</p>
+          <p class="editorial-copy" id="editorial-copy">
+            XShow is curating a premiere line of AI-born trailers.
+          </p>
+        </section>
+
         <section class="hero-shell">
           <div class="hero-copy reveal is-visible">
-            <p class="eyebrow">Launch-ready trailer surface</p>
-            <h1>Give every trailer a stage that feels like a movie.</h1>
+            <p class="eyebrow" id="hero-kicker">Premiere selection</p>
+            <h1>Give every AI-made trailer the gravity of a real release.</h1>
             <p class="hero-text" id="hero-summary">
               XShow is loading the featured trailer experience.
             </p>
@@ -54,9 +70,11 @@
               A cinematic homepage, dedicated watch pages, and your private upload flow.
             </p>
 
+            <div class="hero-stat-row" id="hero-stat-row" aria-label="XShow live stats"></div>
+
             <div class="hero-actions">
-              <a class="button button-primary" id="hero-watch-link" href="#trailers">Watch Featured</a>
-              <a class="button button-secondary" href="#creator">Upload Trailer</a>
+              <a class="button button-primary" id="hero-watch-link" href="#trailers" data-cursor-label="Watch">Watch Featured</a>
+              <a class="button button-secondary" href="#creator" data-cursor-label="Upload">Upload Trailer</a>
             </div>
           </div>
 
@@ -86,17 +104,31 @@
               <p class="meta-line" id="spotlight-meta-line">Duration: --:--</p>
 
               <div class="hero-actions hero-actions-tight">
-                <a class="button button-primary" id="featured-watch-link" href="/">Open Watch Page</a>
-                <a class="button button-secondary" href="#trailers">Browse Library</a>
+                <a class="button button-primary" id="featured-watch-link" href="/" data-cursor-label="Open">Open Watch Page</a>
+                <a class="button button-secondary" href="#trailers" data-cursor-label="Browse">Browse Library</a>
               </div>
             </div>
           </section>
         </section>
 
+        <section class="showcase-shell reveal" id="showcase">
+          <div class="section-heading section-heading-inline">
+            <div>
+              <p class="eyebrow">Now Showing</p>
+              <h2>A premium shelf for your latest releases</h2>
+            </div>
+            <p class="section-sidecopy">
+              Inspired by the strongest film platforms: big visuals, tight copy, and quick choices.
+            </p>
+          </div>
+
+          <div class="selection-rail" id="selection-rail" aria-live="polite"></div>
+        </section>
+
         <section class="library-shell" id="trailers">
           <div class="section-heading reveal">
             <p class="eyebrow">Trailer Library</p>
-            <h2>Browse by category, preview on the homepage, or open a dedicated watch page</h2>
+            <h2>Browse the archive, filter by style, and open any trailer in its own watch page</h2>
             <p>
               This stays intentionally focused: people come here to watch your videos, not
               dig through extra product sections.
@@ -104,6 +136,7 @@
           </div>
 
           <div class="filter-row reveal" id="category-filters" aria-label="Trailer categories"></div>
+          <p class="library-meta reveal is-visible" id="library-meta">All trailers, ready to watch.</p>
           <div class="catalog-grid" id="trailer-grid" aria-live="polite"></div>
         </section>
 
