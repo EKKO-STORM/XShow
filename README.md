@@ -43,9 +43,11 @@ xshow-director
 
 ## Deploy
 
-This repo includes a ready-to-use Render blueprint in [render.yaml](/Users/andrewxie/Desktop/XShow/render.yaml).
+This repo includes a ready-to-use Render blueprint in [render.yaml](./render.yaml).
 
-Quick deployment steps are in [DEPLOY.md](/Users/andrewxie/Desktop/XShow/DEPLOY.md).
+Quick deployment steps are in [DEPLOY.md](./DEPLOY.md).
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/EKKO-STORM/XShow)
 
 ## Production note
 
