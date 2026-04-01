@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XShow | Trailer Studio</title>
+    <meta
+      name="description"
+      content="XShow is a cinematic trailer-first website with featured playback, category filters, private uploads, and dedicated watch pages."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="home-page">
+    <div class="ambient-backdrop" id="ambient-backdrop" data-tone="midnight" aria-hidden="true">
+      <div class="ambient-video-wrap" id="ambient-video-wrap"></div>
+      <div class="ambient-orb ambient-orb-one"></div>
+      <div class="ambient-orb ambient-orb-two"></div>
+      <div class="ambient-orb ambient-orb-three"></div>
+      <div class="ambient-grid"></div>
+      <div class="ambient-grain"></div>
+    </div>
+
+    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="XShow home">
+          <span class="brand-mark">X</span>
+          <span class="brand-text">XShow</span>
+        </a>
+
+        <div class="header-actions">
+          <span class="status-pill" id="creator-status-pill">Viewer Mode</span>
+          <a class="header-cta" href="#creator">Upload Trailer</a>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero-shell">
+          <div class="hero-copy reveal is-visible">
+            <p class="eyebrow">Launch-ready trailer surface</p>
+            <h1>Give every trailer a stage that feels like a movie.</h1>
+            <p class="hero-text" id="hero-summary">
+              XShow is loading the featured trailer experience.
+            </p>
+            <p class="hero-note" id="hero-note">
+              A cinematic homepage, dedicated watch pages, and your private upload flow.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary" id="hero-watch-link" href="#trailers">Watch Featured</a>
+              <a class="button button-secondary" href="#creator">Upload Trailer</a>
+            </div>
+          </div>
+
+          <section class="hero-stage-shell reveal is-visible" aria-label="Featured trailer">
+            <div class="stage-badge-row">
+              <span class="live-pill">Featured Trailer</span>
+              <span class="micro-pill" id="featured-category">Trailer</span>
+            </div>
+
+            <div class="spotlight-stage tone-midnight" id="spotlight-stage">
+              <div class="poster-shell">
+                <div class="poster-copy">
+                  <p class="caption-tag">Initializing trailer</p>
+                  <h2>Loading featured trailer</h2>
+                  <p>The trailer stage is syncing from the XShow catalog.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="featured-meta">
+              <p class="caption-tag" id="spotlight-style">Trailer feed</p>
+              <h2 id="spotlight-title">Awaiting first trailer</h2>
+              <p class="spotlight-description" id="spotlight-description">
+                Select a trailer below or upload a new one to make the page feel alive.
+              </p>
+              <div class="tag-row" id="spotlight-tags"></div>
+              <p class="meta-line" id="spotlight-meta-line">Duration: --:--</p>
+
+              <div class="hero-actions hero-actions-tight">
+                <a class="button button-primary" id="featured-watch-link" href="/">Open Watch Page</a>
+                <a class="button button-secondary" href="#trailers">Browse Library</a>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="library-shell" id="trailers">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Trailer Library</p>
+            <h2>Browse by category, preview on the homepage, or open a dedicated watch page</h2>
+            <p>
+              This stays intentionally focused: people come here to watch your videos, not
+              dig through extra product sections.
+            </p>
+          </div>
+
+          <div class="filter-row reveal" id="category-filters" aria-label="Trailer categories"></div>
+          <div class="catalog-grid" id="trailer-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="creator-shell" id="creator">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Private Upload</p>
+            <h2>Keep the public site simple and keep your controls private</h2>
+            <p>
+              Only you unlock uploads. Every new trailer gets its own watch page, category,
+              and tags automatically in the live catalog.
+            </p>
+          </div>
+
+          <div class="creator-grid">
+            <section class="gate-panel reveal">
+              <div class="panel-header">
+                <div>
+                  <p class="panel-eyebrow">Creator Access</p>
+                  <h3 id="creator-panel-title">Unlock uploads</h3>
+                </div>
+                <span class="status-pill" id="creator-mode-indicator">Locked</span>
+              </div>
+
+              <p class="panel-copy" id="creator-panel-copy">
+                Enter your creator access key to enable trailer uploads.
+              </p>
+
+              <form class="creator-form" id="creator-login-form">
+                <label for="access-key">Creator access key</label>
+                <div class="inline-form">
+                  <input
+                    id="access-key"
+                    name="accessKey"
+                    type="password"
+                    placeholder="Enter creator key"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button class="button button-primary" type="submit">Unlock</button>
+                </div>
+              </form>
+
+              <div class="creator-auth-panel" id="creator-auth-panel" hidden>
+                <p class="auth-copy">
+                  Creator mode is active. New uploads will go live in the XShow library.
+                </p>
+                <button class="button button-secondary" id="logout-button" type="button">
+                  Lock Upload Area
+                </button>
+              </div>
+
+              <p class="feedback-message" id="creator-feedback" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="upload-panel reveal">
+              <div class="panel-header">
+                <div>
+                  <p class="panel-eyebrow">Upload Trailer</p>
+                  <h3>Add a new trailer to the live site</h3>
+                </div>
+                <span class="status-pill">Private</span>
+              </div>
+
+              <form id="upload-form" hidden>
+                <input name="kind" type="hidden" value="trailer" />
+                <input name="channels" type="hidden" value="Website" />
+
+                <div class="form-grid">
+                  <label>
+                    Title
+                    <input name="title" type="text" placeholder="Ashes Over Arcadia" required />
+                  </label>
+
+                  <label>
+                    Category
+                    <input name="category" type="text" placeholder="Sci-Fi" required />
+                  </label>
+
+                  <label>
+                    Style
+                    <input name="style" type="text" placeholder="Neon dystopia" required />
+                  </label>
+
+                  <label>
+                    Tags
+                    <input name="tags" type="text" placeholder="neon, dystopia, worldbuilding" />
+                  </label>
+
+                  <label>
+                    Approx duration (seconds)
+                    <input name="durationSeconds" type="number" min="5" max="7200" value="45" required />
+                  </label>
+
+                  <label class="feature-toggle">
+                    <input name="featured" type="checkbox" />
+                    Make this the featured trailer
+                  </label>
+
+                  <label class="full-width">
+                    Description
+                    <textarea
+                      name="description"
+                      rows="4"
+                      placeholder="Short description for the trailer."
+                      required
+                    ></textarea>
+                  </label>
+
+                  <label class="full-width">
+                    Video file
+                    <input name="video" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" required />
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button class="button button-primary" type="submit">Upload Trailer</button>
+                  <p class="feedback-message" id="upload-feedback" role="status" aria-live="polite"></p>
+                </div>
+              </form>
+
+              <div class="upload-locked" id="upload-locked-copy">
+                Creator mode is required before uploads are enabled.
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

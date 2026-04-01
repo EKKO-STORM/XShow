@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XShow | Watch Trailer</title>
+    <meta
+      name="description"
+      content="Watch a dedicated XShow trailer page with cinematic playback, category tags, and related videos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="watch-page">
+    <div class="ambient-backdrop" id="ambient-backdrop" data-tone="midnight" aria-hidden="true">
+      <div class="ambient-video-wrap" id="ambient-video-wrap"></div>
+      <div class="ambient-orb ambient-orb-one"></div>
+      <div class="ambient-orb ambient-orb-two"></div>
+      <div class="ambient-orb ambient-orb-three"></div>
+      <div class="ambient-grid"></div>
+      <div class="ambient-grain"></div>
+    </div>
+
+    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="XShow home">
+          <span class="brand-mark">X</span>
+          <span class="brand-text">XShow</span>
+        </a>
+
+        <div class="header-actions">
+          <a class="header-cta" href="/#creator">Upload Trailer</a>
+        </div>
+      </header>
+
+      <main>
+        <section class="watch-hero-shell">
+          <div class="reveal is-visible">
+            <a class="back-link" href="/">Back to all trailers</a>
+
+            <div class="watch-layout">
+              <section class="watch-stage-shell reveal is-visible">
+                <div class="watch-stage tone-midnight" id="watch-stage">
+                  <div class="poster-shell">
+                    <div class="poster-copy">
+                      <p class="caption-tag">Loading trailer</p>
+                      <h2>Syncing watch page</h2>
+                      <p>The dedicated trailer page is pulling from the XShow catalog.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <aside class="watch-info-shell reveal is-visible">
+                <p class="eyebrow" id="watch-category">Trailer</p>
+                <h1 id="watch-title">Loading trailer</h1>
+                <p class="watch-description" id="watch-description">
+                  Trailer details are loading now.
+                </p>
+
+                <div class="watch-meta">
+                  <span id="watch-style">Style: --</span>
+                  <span id="watch-duration">Duration: --:--</span>
+                  <span id="watch-status">Status: --</span>
+                </div>
+
+                <div class="tag-row" id="watch-tags"></div>
+
+                <div class="watch-actions">
+                  <a class="button button-primary" href="/">Back Home</a>
+                  <a class="button button-secondary" href="/#creator">Upload Trailer</a>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="related-shell">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Related Trailers</p>
+            <h2>Keep people watching after the first play</h2>
+            <p>
+              Related trailers use the same categories and tags so the library stays easy
+              to browse as you upload more.
+            </p>
+          </div>
+
+          <div class="related-grid" id="related-grid" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/watch.js"></script>
+  </body>
+</html>

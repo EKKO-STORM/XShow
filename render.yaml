@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: xshow
+    runtime: python
+    plan: starter
+    region: oregon
+    buildCommand: python -m py_compile app.py
+    startCommand: python app.py
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: XSHOW_STORAGE_DIR
+        value: /opt/render/project/src/storage
+      - key: XSHOW_SESSION_COOKIE_SECURE
+        value: "true"
+      - key: XSHOW_SESSION_SECRET
+        generateValue: true
+      - key: XSHOW_ADMIN_KEY
+        sync: false
+    disk:
+      name: storage
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 10
